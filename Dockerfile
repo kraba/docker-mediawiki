@@ -101,10 +101,46 @@ RUN curl -s -o /tmp/extension-visualeditor.tar.gz https://extdist.wmflabs.org/di
     rm /tmp/extension-visualeditor.tar.gz
 
 # User merge and delete extension
-ARG EXTENSION_USERMERGE_VERSION=REL1_29-de5f67d
+ARG EXTENSION_USERMERGE_VERSION=REL1_29-b35129f
 RUN curl -s -o /tmp/extension-usermerge.tar.gz https://extdist.wmflabs.org/dist/extensions/UserMerge-$EXTENSION_USERMERGE_VERSION.tar.gz && \
     tar -xzf /tmp/extension-usermerge.tar.gz -C /var/www/mediawiki/extensions && \
     rm /tmp/extension-usermerge.tar.gz
+
+#Input Box extension
+ARG EXTENSION_INPUTBOX_VERSION=REL1_29-49317c0
+RUN curl -s -o /tmp/extension-inputbox.tar.gz https://extdist.wmflabs.org/dist/extensions/InputBox-$EXTENSION_INPUTBOX_VERSION.tar.gz && \
+    tar -xzf /tmp/extension-inputbox.tar.gz -C /var/www/mediawiki/extensions && \
+    rm /tmp/extension-inputbox.tar.gz
+
+#Boilerplate extension
+ARG EXTENSION_BOILERPLATE_VERSION=REL1_29-49317c0
+RUN curl -s -o /tmp/extension-boilerplate.tar.gz https://extdist.wmflabs.org/dist/extensions/BoilerPlate-$EXTENSION_BOILERPLATE_VERSION.tar.gz && \
+    tar -xzf /tmp/extension-boilerplate.tar.gz -C /var/www/mediawiki/extensions && \
+    rm /tmp/extension-boilerplate.tar.gz
+
+#Newest Pages extension
+ARG EXTENSION_NEWESTPAGES_VERSION=REL1_29-75aa49b
+RUN curl -s -o /tmp/extension-newestpages.tar.gz https://extdist.wmflabs.org/dist/extensions/NewestPages-$EXTENSION_NEWESTPAGES_VERSION.tar.gz && \
+    tar -xzf /tmp/extension-newestpages.tar.gz -C /var/www/mediawiki/extensions && \
+    rm /tmp/extension-newestpages.tar.gz
+
+#Parser functions
+ARG EXTENSION_PARSERFUNCTIONS_VERSION=REL1_29-ec53ace
+RUN curl -s -o /tmp/extension-parserfunctions.tar.gz https://extdist.wmflabs.org/dist/extensions/ParserFunctions-$EXTENSION_PARSERFUNCTIONS_VERSION.tar.gz && \
+    tar -xzf /tmp/extension-parserfunctions.tar.gz -C /var/www/mediawiki/extensions && \
+    rm /tmp/extension-parserfunctions.tar.gz
+
+#MS Links
+ARG EXTENSION_MSLINKS_VERSION=REL1_29-1091744
+RUN curl -s -o /tmp/extension-mslinks.tar.gz https://extdist.wmflabs.org/dist/extensions/MsLinks-$EXTENSION_MSLINKS_VERSION.tar.gz && \
+    tar -xzf /tmp/extension-mslinks.tar.gz -C /var/www/mediawiki/extensions && \
+    rm /tmp/extension-mslinks.tar.gz
+
+#Admin Links
+ARG EXTENSION_ADMINLINKS_VERSION=REL1_29-e15242a
+RUN curl -s -o /tmp/extension-adminlinks.tar.gz https://extdist.wmflabs.org/dist/extensions/AdminLinks-$EXTENSION_MSLINKS_VERSION.tar.gz && \
+    tar -xzf /tmp/extension-adminlinks.tar.gz -C /var/www/mediawiki/extensions && \
+    rm /tmp/extension-adminlinks.tar.gz
 
 # Set work dir
 WORKDIR /var/www/mediawiki

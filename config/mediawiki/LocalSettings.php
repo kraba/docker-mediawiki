@@ -190,7 +190,10 @@ if (getenv('MEDIAWIKI_SMTP') == '1') {
     );
 }
 
-# VisualEditor
+###########################################
+############ Extension Section ############
+###########################################
+#VisualEditor
 if (getenv('MEDIAWIKI_ENABLE_VISUAL_EDITOR') == '' // Deprecated
 || getenv('MEDIAWIKI_ENABLE_VISUAL_EDITOR') == '1' // Deprecated
 || getenv('MEDIAWIKI_EXTENSION_VISUAL_EDITOR_ENABLED') == ''
@@ -206,7 +209,7 @@ if (getenv('MEDIAWIKI_ENABLE_VISUAL_EDITOR') == '' // Deprecated
     $wgVirtualRestConfig['modules']['parsoid']['forwardCookies'] = true;
 }
 
-# User Merge
+#User Merge
 if (getenv('MEDIAWIKI_EXTENSION_USER_MERGE_ENABLED') == ''
 || getenv('MEDIAWIKI_EXTENSION_USER_MERGE_ENABLED') == '1') {
     wfLoadExtension('UserMerge');
@@ -214,6 +217,54 @@ if (getenv('MEDIAWIKI_EXTENSION_USER_MERGE_ENABLED') == ''
     $wgGroupPermissions['sysop']['usermerge'] = true;
     $wgUserMergeProtectedGroups = array();
 }
+
+#Input Box
+wfLoadExtension( 'InputBox' );
+#BoilerPlate (template)
+wfLoadExtension( 'BoilerPlate' );
+#Newest Pages
+wfLoadExtension( 'NewestPages' );
+#Parser functions
+wfLoadExtension( 'ParserFunctions' );
+$wgPFEnableStringFunctions = true;
+#Admin Links
+wfLoadExtension( 'AdminLinks' );
+#MSLinks
+#Usage:
+#{{#l:Testfile.zip}}
+#{{#l:Testfile.zip|Description}}
+#{{#l:Testfile.zip|Description|right}}
+wfLoadExtension( 'MsLinks' );
+$wgMSL_FileTypes = array(
+                          "no" => "no_icon.png",
+                          "jpg" => "image_icon.png",
+                          "bmp" => "image_icon.png",
+                          "png" => "image_icon.png",
+                          "tiff" => "image_icon.png",
+                          "tif" => "image_icon.png",
+                          "psd" => "image_ps_icon.png",
+                          "pdf" => "pdf_icon.png",
+                          "pps" => "pps_icon.png",
+                          "ppt" => "pps_icon.png",
+                          "pptx" => "pps_icon.png",
+                          "xls" => "xls_icon.png",
+                          "xlsx" => "xls_icon.png",
+                          "doc" => "doc_icon.png",
+                          "docx" => "doc_icon.png",
+                          "dot" => "doc_icon.png",
+                          "dotx" => "doc_icon.png",
+                          "rtf" => "doc_icon.png",
+                          "txt" => "txt_icon.png",
+                          "html" => "code_icon.png",
+                          "php" => "code_icon.png",
+                          "exe" => "exe_icon.gif",
+                          "asc" => "txt_icon.png",
+                          "dwg" => "dwg_icon.gif",
+                          "zip" => "zip_icon.png",
+                          "mp3"  => "music_icon.png",
+                   );
+
+
 
 # Load extra settings
 require 'ExtraLocalSettings.php';
