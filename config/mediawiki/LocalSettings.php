@@ -157,7 +157,7 @@ if (getenv('MEDIAWIKI_UPGRADE_KEY') != '') {
 
 $wgDiff3 = "/usr/bin/diff3";
 
-$wgDefaultSkin = "vector";
+$wgDefaultSkin = "tweeki";
 if (getenv('MEDIAWIKI_DEFAULT_SKIN') != '') {
     $wgDefaultSkin = getenv('MEDIAWIKI_DEFAULT_SKIN');
 }
@@ -167,6 +167,7 @@ wfLoadSkin( 'CologneBlue' );
 wfLoadSkin( 'Modern' );
 wfLoadSkin( 'MonoBook' );
 wfLoadSkin( 'Vector' );
+wfLoadSkin( 'Tweeki' );
 
 # Debug
 if (getenv('MEDIAWIKI_DEBUG') == '1') {
@@ -227,43 +228,6 @@ wfLoadExtension( 'NewestPages' );
 #Parser functions
 wfLoadExtension( 'ParserFunctions' );
 $wgPFEnableStringFunctions = true;
-#Admin Links
-wfLoadExtension( 'AdminLinks' );
-#MSLinks
-#Usage:
-#{{#l:Testfile.zip}}
-#{{#l:Testfile.zip|Description}}
-#{{#l:Testfile.zip|Description|right}}
-wfLoadExtension( 'MsLinks' );
-$wgMSL_FileTypes = array(
-                          "no" => "no_icon.png",
-                          "jpg" => "image_icon.png",
-                          "bmp" => "image_icon.png",
-                          "png" => "image_icon.png",
-                          "tiff" => "image_icon.png",
-                          "tif" => "image_icon.png",
-                          "psd" => "image_ps_icon.png",
-                          "pdf" => "pdf_icon.png",
-                          "pps" => "pps_icon.png",
-                          "ppt" => "pps_icon.png",
-                          "pptx" => "pps_icon.png",
-                          "xls" => "xls_icon.png",
-                          "xlsx" => "xls_icon.png",
-                          "doc" => "doc_icon.png",
-                          "docx" => "doc_icon.png",
-                          "dot" => "doc_icon.png",
-                          "dotx" => "doc_icon.png",
-                          "rtf" => "doc_icon.png",
-                          "txt" => "txt_icon.png",
-                          "html" => "code_icon.png",
-                          "php" => "code_icon.png",
-                          "exe" => "exe_icon.gif",
-                          "asc" => "txt_icon.png",
-                          "dwg" => "dwg_icon.gif",
-                          "zip" => "zip_icon.png",
-                          "mp3"  => "music_icon.png",
-                   );
-
 
 
 # Load extra settings

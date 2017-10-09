@@ -1,5 +1,6 @@
 FROM php:7.0-fpm
 MAINTAINER Kristoph Junge <kristoph.junge@gmail.com>
+MAINTAINER Matteo Basso <matteo.basso@gmail.com>
 
 # Change UID and GID of www-data user to match host privileges
 ARG MEDIAWIKI_USER_UID=999
@@ -9,7 +10,7 @@ RUN usermod -u $MEDIAWIKI_USER_UID www-data && \
 
 # Utilities
 RUN apt-get update && \
-    apt-get -y install apt-transport-https git curl --no-install-recommends && \
+    apt-get -y install apt-transport-https git curl wget --no-install-recommends && \
     rm -r /var/lib/apt/lists/*
 
 # MySQL PHP extension
@@ -67,13 +68,18 @@ RUN curl -sL https://deb.nodesource.com/setup_4.x | bash - && \
     apt-get install -y nodejs --no-install-recommends
 
 # Parsoid
-RUN useradd parsoid --no-create-home --home-dir /usr/lib/parsoid --shell /usr/sbin/nologin
+
+ARG PARSOID_USER_UID=998
+ARG PARSOID_USER_GID=998
+RUN useradd parsoid -u $PARSOID_USER_UID --no-create-home --home-dir /usr/lib/parsoid --shell /usr/sbin/nologin && \
+    groupmod -g $PARSOID_USER_GID parsoid
 RUN apt-key advanced --keyserver pgp.mit.edu --recv-keys 90E9F83F22250DD7 && \
     echo "deb https://releases.wikimedia.org/debian jessie-mediawiki main" > /etc/apt/sources.list.d/parsoid.list && \
     apt-get update && \
     apt-get -y install parsoid --no-install-recommends
 COPY config/parsoid/config.yaml /usr/lib/parsoid/src/config.yaml
 ENV NODE_PATH /usr/lib/parsoid/node_modules:/usr/lib/parsoid/src
+
 
 # MediaWiki
 ARG MEDIAWIKI_VERSION_MAJOR=1.29
@@ -89,7 +95,6 @@ RUN curl -s -o /tmp/keys.txt https://www.mediawiki.org/keys/keys.txt && \
     tar -xzf /tmp/mediawiki.tar.gz -C /tmp && \
     mv /tmp/mediawiki-$MEDIAWIKI_VERSION/* /var/www/mediawiki && \
     rm -rf /tmp/mediawiki.tar.gz /tmp/mediawiki-$MEDIAWIKI_VERSION/ /tmp/keys.txt && \
-    chown -R www-data:www-data /data /images && \
     rm -rf /var/www/mediawiki/images && \
     ln -s /images /var/www/mediawiki/images
 COPY config/mediawiki/* /var/www/mediawiki/
@@ -101,13 +106,13 @@ RUN curl -s -o /tmp/extension-visualeditor.tar.gz https://extdist.wmflabs.org/di
     rm /tmp/extension-visualeditor.tar.gz
 
 # User merge and delete extension
-ARG EXTENSION_USERMERGE_VERSION=REL1_29-b35129f
+ARG EXTENSION_USERMERGE_VERSION=REL1_29-de5f67d
 RUN curl -s -o /tmp/extension-usermerge.tar.gz https://extdist.wmflabs.org/dist/extensions/UserMerge-$EXTENSION_USERMERGE_VERSION.tar.gz && \
     tar -xzf /tmp/extension-usermerge.tar.gz -C /var/www/mediawiki/extensions && \
     rm /tmp/extension-usermerge.tar.gz
 
 #Input Box extension
-ARG EXTENSION_INPUTBOX_VERSION=REL1_29-49317c0
+ARG EXTENSION_INPUTBOX_VERSION=REL1_29-b35129f
 RUN curl -s -o /tmp/extension-inputbox.tar.gz https://extdist.wmflabs.org/dist/extensions/InputBox-$EXTENSION_INPUTBOX_VERSION.tar.gz && \
     tar -xzf /tmp/extension-inputbox.tar.gz -C /var/www/mediawiki/extensions && \
     rm /tmp/extension-inputbox.tar.gz
@@ -130,18 +135,13 @@ RUN curl -s -o /tmp/extension-parserfunctions.tar.gz https://extdist.wmflabs.org
     tar -xzf /tmp/extension-parserfunctions.tar.gz -C /var/www/mediawiki/extensions && \
     rm /tmp/extension-parserfunctions.tar.gz
 
-#MS Links
-ARG EXTENSION_MSLINKS_VERSION=REL1_29-1091744
-RUN curl -s -o /tmp/extension-mslinks.tar.gz https://extdist.wmflabs.org/dist/extensions/MsLinks-$EXTENSION_MSLINKS_VERSION.tar.gz && \
-    tar -xzf /tmp/extension-mslinks.tar.gz -C /var/www/mediawiki/extensions && \
-    rm /tmp/extension-mslinks.tar.gz
+#Tweeki skin
+RUN cd /var/www/mediawiki/skins && \
+    git clone https://github.com/thaider/Tweeki
 
-#Admin Links
-ARG EXTENSION_ADMINLINKS_VERSION=REL1_29-e15242a
-RUN curl -s -o /tmp/extension-adminlinks.tar.gz https://extdist.wmflabs.org/dist/extensions/AdminLinks-$EXTENSION_MSLINKS_VERSION.tar.gz && \
-    tar -xzf /tmp/extension-adminlinks.tar.gz -C /var/www/mediawiki/extensions && \
-    rm /tmp/extension-adminlinks.tar.gz
-
+#Set root to wiki files
+RUN chown -R root:root /var/www/mediawiki && \
+        chown -R www-data:www-data /data /images
 # Set work dir
 WORKDIR /var/www/mediawiki
 
