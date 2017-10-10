@@ -4,11 +4,11 @@ Please, read the official [README.md](https://github.com/kristophjunge/docker-me
 
 This fork improve only few extensions and skin:
 
--[Input Box](https://www.mediawiki.org/wiki/Extension:InputBox) plugin
--[Boilerplate](https://www.mediawiki.org/wiki/Extension:BoilerPlate) plugin
--[Newest Pages](https://www.mediawiki.org/wiki/Extension:Newest_Pages) plugin
--[Parser Functions](https://www.mediawiki.org/wiki/Extension:ParserFunctions) plugin
--[Tweeki](http://tweeki.thai-land.at/wiki/Welcome) skin
+- [Input Box](https://www.mediawiki.org/wiki/Extension:InputBox) plugin
+- [Boilerplate](https://www.mediawiki.org/wiki/Extension:BoilerPlate) plugin
+- [Newest Pages](https://www.mediawiki.org/wiki/Extension:Newest_Pages) plugin
+- [Parser Functions](https://www.mediawiki.org/wiki/Extension:ParserFunctions) plugin
+- [Tweeki](http://tweeki.thai-land.at/wiki/Welcome) skin
 
 and some permissions of file/directory.
 
